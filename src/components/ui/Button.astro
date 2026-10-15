@@ -1,0 +1,43 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+type Variant = 'primary' | 'navy' | 'outline' | 'outline-light';
+type Size = 'sm' | 'md' | 'lg';
+
+type Props = {
+  variant?: Variant;
+  size?: Size;
+  /** Renders an <a> when present, otherwise a <button>. */
+  href?: string;
+  class?: string;
+} & Omit<HTMLAttributes<'button'>, 'class'> &
+  Omit<HTMLAttributes<'a'>, 'class'>;
+
+const { variant = 'primary', size = 'md', href, class: className, ...rest } = Astro.props;
+
+const sizes: Record<Size, string> = {
+  sm: 'px-4 py-2 text-xs',
+  md: 'px-6 py-3 text-sm',
+  lg: 'px-8 py-[15px] text-base',
+};
+
+const variants: Record<Variant, string> = {
+  primary: 'bg-accent border-accent text-white hover:bg-navy-700 hover:border-navy-700 hover:text-white',
+  navy: 'bg-surface-dark border-surface-dark text-white hover:bg-navy-900 hover:border-navy-900 hover:text-white',
+  outline: 'bg-transparent border-line-strong text-heading hover:border-accent hover:text-accent',
+  'outline-light': 'bg-transparent border-line-on-dark text-white hover:bg-white/12 hover:text-white',
+};
+
+const classes = [
+  'inline-flex items-center justify-center gap-2 rounded-sm border',
+  'font-display font-bold uppercase tracking-label leading-snug',
+  'cursor-pointer transition disabled:cursor-not-allowed disabled:opacity-45',
+  sizes[size],
+  variants[variant],
+  className,
+];
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag href={href} class:list={classes} {...rest}><slot /></Tag>

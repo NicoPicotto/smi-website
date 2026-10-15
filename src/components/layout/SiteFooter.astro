@@ -1,0 +1,55 @@
+---
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import { NAV, EMAILS, CONTACT, TAGLINE } from '../../data/site';
+
+const colTitle = 'type-label mb-4 text-xs text-on-dark';
+const line = 'text-sm text-on-dark-muted';
+const link = 'text-sm text-on-dark-muted hover:text-white';
+---
+
+<footer class="bg-surface-dark pt-16 pb-10">
+  <div class="container-site grid gap-8 sm:grid-cols-2 sm:gap-10 lg:grid-cols-[1.4fr_1fr_1.3fr_1.3fr]">
+    <div>
+      <Logo height={64} onDark />
+      <p class:list={[line, 'mt-5 max-w-55']}>{TAGLINE}</p>
+    </div>
+
+    <nav aria-label="Enlaces">
+      <h2 class={colTitle}>Enlaces</h2>
+      <ul class="grid gap-2">
+        {NAV.map((item) => <li><a href={item.href} class={link}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2 class={colTitle}>Correos</h2>
+      <ul class="grid gap-3">
+        {
+          EMAILS.map((email) => (
+            <li class="flex items-center gap-3">
+              <Icon name="email" size={16} class="text-white" />
+              <a href={`mailto:${email}`} class={link}>{email}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <div>
+      <h2 class={colTitle}>Contacto</h2>
+      <div class="grid gap-3">
+        <p class="flex items-center gap-3">
+          <Icon name="contacto" size={16} class="text-white" />
+          <span class={line}>{CONTACT.phone}</span>
+        </p>
+        <address class="flex items-start gap-3 not-italic">
+          <Icon name="ubicacion" size={16} class="mt-1 text-white" />
+          <span class={line}>
+            {CONTACT.address.map((part) => <span class="block">{part}</span>)}
+          </span>
+        </address>
+      </div>
+    </div>
+  </div>
+</footer>

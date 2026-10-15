@@ -1,0 +1,89 @@
+---
+import Logo from '../ui/Logo.astro';
+import Icon from '../ui/Icon.astro';
+import { NAV, EMAILS } from '../../data/site';
+
+const ctaHref = NAV[NAV.length - 1]!.href;
+---
+
+<div class="group/nav sticky top-0 z-60 md:hidden" data-mobile-nav>
+  <div class="flex h-(--header-h) items-center justify-between bg-surface px-(--gutter) shadow-header">
+    <a href="/"><Logo loading="eager" height={44} /></a>
+
+    <button
+      type="button"
+      class="grid size-11 cursor-pointer content-center justify-items-end gap-1 px-1"
+      aria-label="Abrir menú"
+      aria-expanded="false"
+      aria-controls="mobile-drawer"
+      data-mobile-nav-toggle
+    >
+      <span class="block h-0.5 w-6 bg-navy-800 transition group-data-open/nav:translate-y-1.5 group-data-open/nav:rotate-45"></span>
+      <span class="block h-0.5 w-6 bg-navy-800 transition group-data-open/nav:opacity-0"></span>
+      <span class="block h-0.5 w-6 bg-navy-800 transition group-data-open/nav:-translate-y-1.5 group-data-open/nav:-rotate-45"></span>
+    </button>
+  </div>
+
+  <nav
+    id="mobile-drawer"
+    aria-label="Principal"
+    class:list={[
+      // Overlays the page instead of pushing it down; scrolls if taller than the viewport
+      'absolute inset-x-0 top-full grid max-h-0 overflow-y-auto bg-surface',
+      'transition-[max-height] duration-320',
+      'group-data-open/nav:max-h-[calc(100dvh-var(--header-h))] group-data-open/nav:border-b group-data-open/nav:border-line group-data-open/nav:shadow-card-hover',
+      'motion-reduce:transition-none',
+    ]}
+  >
+    {
+      NAV.map((item) => (
+        <a
+          href={item.href}
+          class:list={[
+            'type-label min-h-12 border-b px-(--gutter) py-4',
+            item.href === ctaHref
+              ? 'border-accent bg-accent text-white hover:text-white'
+              : 'border-line text-heading',
+          ]}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+    <div class="grid gap-2 px-(--gutter) py-5">
+      {
+        EMAILS.map((email) => (
+          <a href={`mailto:${email}`} class="flex min-h-8 items-center gap-3 text-sm text-body">
+            <Icon name="email" size={16} class="text-navy-800" />
+            {email}
+          </a>
+        ))
+      }
+    </div>
+  </nav>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-mobile-nav]').forEach((root) => {
+    const toggle = root.querySelector<HTMLButtonElement>('[data-mobile-nav-toggle]');
+    if (!toggle) return;
+
+    const setOpen = (open: boolean) => {
+      root.toggleAttribute('data-open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+      toggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    };
+
+    toggle.addEventListener('click', () => setOpen(!root.hasAttribute('data-open')));
+    root.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    root.querySelectorAll('nav a').forEach((link) => link.addEventListener('click', () => setOpen(false)));
+    document.addEventListener('click', (e) => {
+      if (root.hasAttribute('data-open') && !root.contains(e.target as Node)) setOpen(false);
+    });
+  });
+</script>

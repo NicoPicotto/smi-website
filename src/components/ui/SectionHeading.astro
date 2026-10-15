@@ -1,0 +1,32 @@
+---
+/** Uppercase section title with the brand's 44×3 accent rule underneath. */
+interface Props {
+  title: string;
+  intro?: string;
+  align?: 'left' | 'center';
+  onDark?: boolean;
+  as?: 'h1' | 'h2' | 'h3';
+  class?: string;
+}
+
+const { title, intro, align = 'left', onDark = false, as: Tag = 'h2', class: className } = Astro.props;
+const centered = align === 'center';
+---
+
+<div class:list={[centered && 'text-center', className]}>
+  <Tag class:list={['type-h2', onDark ? 'text-on-dark' : 'text-heading']}>{title}</Tag>
+  <div class:list={['mt-4 h-0.75 w-11 bg-accent', centered && 'mx-auto']}></div>
+  {
+    intro && (
+      <p
+        class:list={[
+          'mt-5',
+          centered ? 'mx-auto max-w-180' : 'max-w-120',
+          onDark ? 'text-on-dark-muted' : 'text-body',
+        ]}
+      >
+        {intro}
+      </p>
+    )
+  }
+</div>

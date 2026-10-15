@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import Button from '../ui/Button.astro';
+import heroImage from '../../assets/images/hero.png';
+---
+
+<section class="hero relative flex min-h-130 items-center overflow-hidden bg-navy-900">
+  <Image
+    src={heroImage}
+    alt=""
+    loading="eager"
+    fetchpriority="high"
+    widths={[768, 1536]}
+    sizes="100vw"
+    class="hero-media absolute inset-0 size-full object-cover"
+  />
+  <span class="absolute inset-0 bg-(image:--gradient-hero)" aria-hidden="true"></span>
+
+  <div class="container-site relative py-16">
+    <div class="max-w-130">
+      <h1 class="hero-title type-hero text-on-dark">
+        Limpieza y<br />mantenimiento<br />industrial
+      </h1>
+      <div class="hero-rule my-6 h-0.75 w-11 origin-left bg-accent"></div>
+      <p class="hero-lead max-w-105 text-lead text-white/86">
+        Soluciones integrales con personal propio, capacitado y comprometido con la calidad, la
+        seguridad y el cuidado del entorno.
+      </p>
+      <div class="hero-cta mt-8 flex flex-wrap gap-3 max-sm:*:w-full">
+        <Button size="lg" href="/contacto">Solicitar presupuesto</Button>
+        <Button size="lg" variant="outline-light" href="#servicios">Ver servicios</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  /* Page-load entrance (not scroll-driven, so it lives here instead of astro-reveal) */
+  @keyframes fade {
+    from { opacity: 0; }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(22px); }
+  }
+  @keyframes grow {
+    from { opacity: 0; transform: scaleX(0); }
+  }
+
+  .hero :global(.hero-media) { animation: fade 0.9s var(--ease-standard) both; }
+  .hero-title { animation: rise 0.9s var(--ease-standard) 0.15s both; }
+  .hero-rule { animation: grow 0.5s var(--ease-standard) 0.5s both; }
+  .hero-lead { animation: rise 0.9s var(--ease-standard) 0.35s both; }
+  .hero-cta { animation: rise 0.9s var(--ease-standard) 0.55s both; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero :global(*) { animation: none; }
+  }
+</style>

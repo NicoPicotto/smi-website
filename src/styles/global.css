@@ -1,0 +1,276 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens — SMI Servicios Industriales
+   Source: designer-deliver/_ds/…/tokens/*.css
+   Default Tailwind scales are cleared so only brand values are available.
+   ========================================================================== */
+
+@theme {
+  /* Colors ---------------------------------------------------------------- */
+  --color-*: initial;
+  --color-white: #ffffff;
+
+  /* Brand ramp: navy #072B4F is the primary, blue #4478AB the only accent */
+  --color-navy-900: #041c33;
+  --color-navy-800: #072b4f;
+  --color-navy-700: #0e3a66;
+  --color-navy-600: #1a4c7d;
+  --color-blue-500: #4478ab;
+  --color-blue-400: #6795c1;
+  --color-blue-300: #9dbad6;
+  --color-blue-100: #dce7f1;
+
+  /* Cool neutrals */
+  --color-gray-50: #f7f8fa;
+  --color-gray-100: #eff1f4;
+  --color-gray-200: #e1e5ea;
+  --color-gray-300: #cbd2da;
+  --color-gray-500: #7a8593;
+  --color-gray-700: #4a5560;
+  --color-gray-900: #222c36;
+
+  /* Derived semantics: form states only */
+  --color-success: #2e7d5b;
+  --color-warning: #c98a16;
+  --color-danger: #b3382f;
+
+  /* Semantic aliases: prefer these in components */
+  --color-brand: var(--color-navy-800);
+  --color-accent: var(--color-blue-500);
+  --color-heading: var(--color-navy-800);
+  --color-body: var(--color-gray-700);
+  --color-muted: var(--color-gray-500);
+  --color-on-dark: var(--color-white);
+  --color-on-dark-muted: var(--color-blue-300);
+  --color-surface: var(--color-white);
+  --color-surface-alt: var(--color-gray-50);
+  --color-surface-dark: var(--color-navy-800);
+  --color-surface-dark-deep: var(--color-navy-900);
+  --color-line: var(--color-gray-200);
+  --color-line-strong: var(--color-gray-300);
+  --color-line-on-dark: rgb(255 255 255 / 0.18);
+
+  /* Typography ------------------------------------------------------------ */
+  --font-*: initial;
+  --font-display: var(--font-archivo);
+  --font-body: var(--font-barlow);
+  --default-font-family: var(--font-body);
+
+  --text-*: initial;
+  --text-hero: 52px;
+  --text-hero--line-height: 1.05;
+  --text-h1: 40px;
+  --text-h1--line-height: 1.15;
+  --text-h2: 30px;
+  --text-h2--line-height: 1.15;
+  --text-h3: 20px;
+  --text-h3--line-height: 1.15;
+  --text-lead: 17px;
+  --text-lead--line-height: 1.6;
+  --text-base: 15px;
+  --text-base--line-height: 1.6;
+  --text-sm: 13px;
+  --text-xs: 11px;
+
+  --leading-*: initial;
+  --leading-tight: 1.05;
+  --leading-heading: 1.15;
+  --leading-snug: 1.2; /* buttons */
+  --leading-label: 1.35;
+  --leading-body: 1.6;
+
+  --tracking-*: initial;
+  --tracking-display: -0.01em;
+  --tracking-heading: 0.01em;
+  --tracking-label: 0.06em;
+  --tracking-eyebrow: 0.12em;
+
+  /* Layout ---------------------------------------------------------------- */
+  --container-site: 1160px;
+
+  /* Desktop-first in the prototype; Tailwind is mobile-first, so these are
+     the same widths used as min-width (or max-* variants). */
+  --breakpoint-*: initial;
+  --breakpoint-xs: 420px;
+  --breakpoint-sm: 680px;
+  --breakpoint-md: 900px; /* desktop header from here up */
+  --breakpoint-lg: 1000px;
+  --breakpoint-xl: 1120px;
+
+  /* Shape ----------------------------------------------------------------- */
+  --radius-*: initial;
+  --radius-xs: 3px;
+  --radius-sm: 4px; /* buttons, inputs */
+  --radius-md: 8px; /* CTA banner, panels */
+  --radius-lg: 10px; /* photos, cards (max) */
+
+  /* Elevation: only these, no inner shadows, no blur */
+  --shadow-*: initial;
+  --shadow-card: 0 1px 2px rgb(4 28 51 / 0.06), 0 4px 14px rgb(4 28 51 / 0.08);
+  --shadow-card-hover: 0 2px 4px rgb(4 28 51 / 0.08), 0 10px 26px rgb(4 28 51 / 0.14);
+  --shadow-media: 0 6px 24px rgb(4 28 51 / 0.16);
+  --shadow-header: 0 1px 0 rgb(4 28 51 / 0.08);
+
+  --drop-shadow-*: initial;
+  --drop-shadow-logo: 0 4px 10px rgb(4 28 51 / 0.25);
+
+  /* Motion ---------------------------------------------------------------- */
+  --ease-*: initial;
+  --ease-standard: cubic-bezier(0.2, 0.6, 0.2, 1);
+  --default-transition-duration: 180ms;
+  --default-transition-timing-function: var(--ease-standard);
+}
+
+/* Tokens outside Tailwind's namespaces, plus the responsive overrides the
+   prototype applies at 1000px and 680px. */
+:root {
+  --gutter: 24px;
+  --section-y: 72px;
+  --section-y-tight: 48px;
+  --header-h: 104px;
+
+  --hex-clip: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  --gradient-hero: linear-gradient(
+    90deg,
+    var(--color-navy-900) 0%,
+    rgb(4 28 51 / 0.92) 42%,
+    rgb(4 28 51 / 0) 72%
+  );
+  --overlay-image: linear-gradient(180deg, rgb(4 28 51 / 0) 45%, rgb(4 28 51 / 0.55) 100%);
+
+  /* astro-reveal, tuned to match the prototype's .rv entrance */
+  --reveal-distance: 20px;
+  --reveal-duration: 700ms;
+  --reveal-easing: var(--ease-standard);
+  --reveal-stagger: 80ms;
+
+  @media (width < 1000px) {
+    --text-hero: 42px;
+    --section-y: 56px;
+  }
+  @media (width < 900px) {
+    --header-h: 64px;
+  }
+  @media (width < 680px) {
+    --text-hero: 34px;
+    --text-h2: 24px;
+    --text-lead: 16px;
+    --gutter: 20px;
+    --section-y: 44px;
+    --section-y-tight: 36px;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+
+    @media (prefers-reduced-motion: reduce) {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--color-surface);
+    color: var(--color-body);
+    font-family: var(--font-body);
+    font-size: var(--text-base);
+    line-height: var(--leading-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+  }
+
+  a {
+    color: var(--color-accent);
+    transition: color 180ms var(--ease-standard);
+
+    &:hover {
+      color: var(--color-navy-700);
+    }
+  }
+
+  /* Anchored sections land below the sticky header */
+  [id] {
+    scroll-margin-top: var(--header-h);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ==========================================================================
+   Utilities — brand recipes that would otherwise repeat 4–5 classes
+   ========================================================================== */
+
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-site);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@utility section-y {
+  padding-block: var(--section-y);
+}
+
+@utility section-y-tight {
+  padding-block: var(--section-y-tight);
+}
+
+@utility hex {
+  clip-path: var(--hex-clip);
+}
+
+/* Uppercase display recipes (DS --type-*) */
+@utility type-hero {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: var(--text-hero);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-display);
+  text-transform: uppercase;
+}
+
+@utility type-h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h2);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+}
+
+@utility type-h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-h3);
+  line-height: var(--leading-heading);
+  letter-spacing: var(--tracking-heading);
+  text-transform: uppercase;
+}
+
+/* Card titles, nav items, buttons. Pair with text-xs for the small variant. */
+@utility type-label {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-sm);
+  line-height: var(--leading-label);
+  letter-spacing: var(--tracking-label);
+  text-transform: uppercase;
+}
+
+@utility type-eyebrow {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-xs);
+  letter-spacing: var(--tracking-eyebrow);
+  text-transform: uppercase;
+  color: var(--color-accent);
+}

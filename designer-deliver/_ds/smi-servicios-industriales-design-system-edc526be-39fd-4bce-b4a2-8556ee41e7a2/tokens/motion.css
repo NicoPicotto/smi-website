@@ -1,2 +1,0 @@
-:root{--ease-standard:cubic-bezier(.2,.6,.2,1); /* @kind other */--dur-fast:120ms; /* @kind other */--dur-base:180ms; /* @kind other */--dur-slow:320ms; /* @kind other */
---transition-base:all var(--dur-base) var(--ease-standard)}

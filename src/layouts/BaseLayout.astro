@@ -1,0 +1,38 @@
+---
+import { Font } from 'astro:assets';
+import SiteHeader from '../components/layout/SiteHeader.astro';
+import SiteFooter from '../components/layout/SiteFooter.astro';
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'SMI Servicios Industriales — Limpieza y mantenimiento industrial',
+  description = 'SMI Servicios Industriales: soluciones integrales de limpieza y mantenimiento industrial con personal propio, capacitado y comprometido con la calidad, la seguridad y el cuidado del entorno.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <Font cssVariable="--font-archivo" preload />
+    <Font cssVariable="--font-barlow" preload />
+  </head>
+  <body>
+    <SiteHeader />
+    <main id="contenido">
+      <slot />
+    </main>
+    <SiteFooter />
+  </body>
+</html>

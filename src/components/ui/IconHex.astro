@@ -1,0 +1,30 @@
+---
+import Icon from './Icon.astro';
+import type { IconName } from '../../lib/icons';
+
+interface Props {
+  name: IconName;
+  size?: number;
+  tone?: 'navy' | 'blue' | 'light';
+  class?: string;
+}
+
+const { name, size = 40, tone = 'navy', class: className } = Astro.props;
+
+const tones = {
+  navy: 'bg-surface-dark text-white',
+  blue: 'bg-accent text-white',
+  light: 'bg-blue-100 text-navy-800',
+};
+---
+
+<span
+  class:list={[
+    'hex inline-flex shrink-0 items-center justify-center w-(--hex-size) h-[calc(var(--hex-size)*1.1)]',
+    tones[tone],
+    className,
+  ]}
+  style={`--hex-size:${size}px`}
+>
+  <Icon name={name} size={Math.round(size * 0.55)} />
+</span>

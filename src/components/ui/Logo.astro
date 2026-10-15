@@ -1,0 +1,23 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../../assets/logo/smi-logo.png';
+
+interface Props {
+  height?: number;
+  /** Flat white knockout for navy surfaces. */
+  onDark?: boolean;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+
+const { height = 56, onDark = false, loading = 'lazy', class: className } = Astro.props;
+---
+
+<Image
+  src={logo}
+  alt="SMI Servicios Industriales"
+  height={height}
+  densities={[1, 2]}
+  loading={loading}
+  class:list={['block w-auto', onDark && 'brightness-0 invert', className]}
+/>

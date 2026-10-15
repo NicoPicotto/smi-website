@@ -1,3 +1,0 @@
-/* SMI webfonts — Archivo (display) + Barlow (body), confirmed by the brand owner. */
-@import url("https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Barlow:wght@400;500;600;700&display=swap");
-:root{--font-display:"Archivo","Arial Narrow",Helvetica,sans-serif;--font-body:"Barlow",Helvetica,Arial,sans-serif}
