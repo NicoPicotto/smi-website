@@ -1,0 +1,22 @@
+:root{
+/* Brand ramp — primary #072B4F and secondary #4478AB are the two colors declared in the icon package README */
+--smi-navy-900:#041C33;--smi-navy-800:#072B4F;--smi-navy-700:#0E3A66;--smi-navy-600:#1A4C7D;
+--smi-blue-500:#4478AB;--smi-blue-400:#6795C1;--smi-blue-300:#9DBAD6;--smi-blue-100:#DCE7F1;
+/* Neutrals */
+--smi-white:#FFFFFF;--smi-gray-50:#F7F8FA;--smi-gray-100:#EFF1F4;--smi-gray-200:#E1E5EA;
+--smi-gray-300:#CBD2DA;--smi-gray-500:#7A8593;--smi-gray-700:#4A5560;--smi-gray-900:#222C36;
+/* Semantic — the site is monochrome navy; semantics are derived, not brand-declared */
+--smi-success:#2E7D5B;--smi-warning:#C98A16;--smi-danger:#B3382F;
+
+/* Aliases */
+--color-brand:var(--smi-navy-800);--color-brand-strong:var(--smi-navy-900);--color-accent:var(--smi-blue-500);
+--text-heading:var(--smi-navy-800);--text-body:var(--smi-gray-700);--text-muted:var(--smi-gray-500);
+--text-on-dark:var(--smi-white);--text-on-dark-muted:var(--smi-blue-300);
+--surface-page:var(--smi-white);--surface-alt:var(--smi-gray-50);--surface-card:var(--smi-white);
+--surface-dark:var(--smi-navy-800);--surface-dark-deep:var(--smi-navy-900);
+--border-subtle:var(--smi-gray-200);--border-default:var(--smi-gray-300);--border-on-dark:rgba(255,255,255,.18);
+--rule-accent:var(--smi-blue-500);
+--gradient-hero:linear-gradient(90deg,var(--smi-navy-900) 0%,rgba(4,28,51,.92) 42%,rgba(4,28,51,0) 72%);
+--gradient-accent:linear-gradient(90deg,var(--smi-blue-500) 0%,var(--smi-navy-800) 100%);
+--overlay-image:linear-gradient(180deg,rgba(4,28,51,0) 45%,rgba(4,28,51,.55) 100%); /* @kind color */
+}
