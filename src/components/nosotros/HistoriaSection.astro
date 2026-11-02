@@ -1,0 +1,38 @@
+---
+import { Image } from 'astro:assets';
+import Reveal from 'astro-reveal/Reveal.astro';
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import teamImage from '../../assets/images/100-grupos-de-trabajo.png';
+
+// TODO: placeholder copy until the client sends SMI's real history.
+const paragraphs = [
+  'SMI Servicios Industriales es una empresa familiar con más de 20 años de trayectoria brindando soluciones integrales de limpieza y mantenimiento industrial.',
+  'Fundada sobre valores de trabajo, honestidad y compromiso, hemos crecido junto a nuestros clientes, construyendo relaciones de confianza basadas en la calidad del servicio y en el desarrollo constante de nuestro equipo.',
+  'Hoy seguimos con la misma esencia que nos vio nacer: ser una empresa cercana, flexible y orientada a resultados, adaptándonos a las necesidades de cada proyecto.',
+];
+---
+
+<Section id="historia">
+  <div class="grid items-center gap-10 lg:grid-cols-[1fr_1.15fr] lg:gap-16">
+    <div>
+      <Reveal>
+        <SectionHeading as="h1" title="Una empresa familiar con trayectoria" />
+      </Reveal>
+      <div class="mt-6 grid gap-4">
+        {paragraphs.map((text, i) => <Reveal as="p" index={i + 1}>{text}</Reveal>)}
+      </div>
+    </div>
+
+    <Reveal index={1.5} distance="24px">
+      <Image
+        src={teamImage}
+        alt="Cuadrilla de personal propio de SMI"
+        widths={[560, 800, 1120]}
+        sizes="(min-width: 1160px) 580px, (min-width: 1000px) 50vw, 100vw"
+        loading="eager"
+        class="block w-full rounded-lg shadow-media"
+      />
+    </Reveal>
+  </div>
+</Section>

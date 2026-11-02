@@ -12,55 +12,27 @@ const cta = NAV[NAV.length - 1]!;
 ---
 
 <header class="sticky top-0 z-70 hidden bg-surface shadow-header md:block">
-  <div class="container-site flex h-(--header-h) items-center gap-8">
+  <div class="container-site flex h-(--header-h) items-center justify-between gap-8">
     <a href="/" class="shrink-0">
-      <Logo loading="eager" height={82} class="drop-shadow-logo" />
+      <Logo variant="iso" loading="eager" height={82} class="drop-shadow-logo" />
     </a>
 
-    <nav aria-label="Principal" class="flex flex-1 items-center gap-6">
+    <nav aria-label="Principal" class="flex items-center gap-6">
       {
         items.map((item) => (
-          <div class="group relative">
-            <a
-              href={item.href}
-              aria-current={isActive(item.href) ? 'page' : undefined}
-              class:list={[
-                'type-label flex items-center gap-1.5 py-4.5 text-xs',
-                'hover:text-accent hover:shadow-[inset_0_-3px_0_var(--color-accent)]',
-                isActive(item.href)
-                  ? 'text-accent shadow-[inset_0_-3px_0_var(--color-accent)]'
-                  : 'text-heading',
-              ]}
-            >
-              {item.label}
-              {item.children && (
-                <span class="text-[9px] text-muted" aria-hidden="true">
-                  ▾
-                </span>
-              )}
-            </a>
-
-            {item.children && (
-              <ul
-                class:list={[
-                  'absolute top-full -left-3 min-w-60 rounded-sm border border-line bg-surface p-2 shadow-card-hover',
-                  'invisible opacity-0 transition group-hover:visible group-hover:opacity-100',
-                  'group-focus-within:visible group-focus-within:opacity-100',
-                ]}
-              >
-                {item.children.map((child) => (
-                  <li>
-                    <a
-                      href={child.href}
-                      class="block rounded-xs px-3 py-2 text-sm text-body hover:bg-surface-alt hover:text-accent"
-                    >
-                      {child.label}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? 'page' : undefined}
+            class:list={[
+              'type-label py-4.5 text-xs',
+              'hover:text-accent hover:shadow-[inset_0_-3px_0_var(--color-accent)]',
+              isActive(item.href)
+                ? 'text-accent shadow-[inset_0_-3px_0_var(--color-accent)]'
+                : 'text-heading',
+            ]}
+          >
+            {item.label}
+          </a>
         ))
       }
 

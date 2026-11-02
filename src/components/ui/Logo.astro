@@ -1,20 +1,23 @@
 ---
 import { Image } from 'astro:assets';
-import logo from '../../assets/logo/smi-logo.png';
+import fullLogo from '../../assets/logo/smi-logo.png';
+import isoLogo from '../../assets/logo/iso-logo.png';
 
 interface Props {
   height?: number;
+  /** `full`: isologo + wordmark. `iso`: hex mark only (header). */
+  variant?: 'full' | 'iso';
   /** Flat white knockout for navy surfaces. */
   onDark?: boolean;
   loading?: 'eager' | 'lazy';
   class?: string;
 }
 
-const { height = 56, onDark = false, loading = 'lazy', class: className } = Astro.props;
+const { height = 56, variant = 'full', onDark = false, loading = 'lazy', class: className } = Astro.props;
 ---
 
 <Image
-  src={logo}
+  src={variant === 'iso' ? isoLogo : fullLogo}
   alt="SMI Servicios Industriales"
   height={height}
   densities={[1, 2]}

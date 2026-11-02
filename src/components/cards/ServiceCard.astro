@@ -1,0 +1,40 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import IconHex from '../ui/IconHex.astro';
+import type { IconName } from '../../lib/icons';
+
+/** Photo (16:10) with the hex badge and title below it, never overlaid. */
+interface Props {
+  image: ImageMetadata;
+  icon: IconName;
+  title: string;
+  note?: string;
+  href: string;
+  /** `lg`: featured card (wider column, bigger badge and title). */
+  size?: 'md' | 'lg';
+}
+
+const { image, icon, title, note, href, size = 'md' } = Astro.props;
+const large = size === 'lg';
+---
+
+<article class="group relative">
+  <div class="aspect-16/10 overflow-hidden rounded-lg shadow-card transition group-hover:shadow-card-hover">
+    <Image
+      src={image}
+      alt=""
+      class="size-full object-cover transition-transform duration-320 group-hover:scale-104"
+    />
+  </div>
+  <div class="mt-4 flex items-start gap-3">
+    <IconHex name={icon} size={large ? 42 : 34} />
+    <div>
+      <h3 class:list={['type-label text-heading', large && 'text-base']}>
+        {/* Stretched link: the whole card is clickable, the title is the accessible name */}
+        <a href={href} class="text-inherit after:absolute after:inset-0 hover:text-inherit">{title}</a>
+      </h3>
+      {note && <p class="mt-1.5 text-card text-gray-600">{note}</p>}
+    </div>
+  </div>
+</article>

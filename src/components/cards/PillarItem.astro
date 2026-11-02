@@ -1,0 +1,22 @@
+---
+import Icon from '../ui/Icon.astro';
+import type { IconName } from '../../lib/icons';
+
+/** Value item for the navy strip: white icon, uppercase title, one-line text. */
+interface Props {
+  icon: IconName;
+  title: string;
+  /** Left hairline separating it from the previous item (4-column layout only). */
+  divider?: boolean;
+}
+
+const { icon, title, divider = false } = Astro.props;
+---
+
+<div class:list={['flex items-start gap-4 lg:px-6', divider && 'lg:border-l lg:border-line-on-dark']}>
+  <Icon name={icon} size={34} class="text-white" />
+  <div>
+    <h3 class="type-label text-on-dark">{title}</h3>
+    <p class="mt-2 text-sm text-on-dark-muted"><slot /></p>
+  </div>
+</div>

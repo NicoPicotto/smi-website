@@ -1,7 +1,7 @@
 ---
 import Logo from '../ui/Logo.astro';
 import Icon from '../ui/Icon.astro';
-import { NAV, EMAILS, CONTACT, TAGLINE } from '../../data/site';
+import { NAV, FOOTER_EMAIL, CONTACT, TAGLINE } from '../../data/site';
 
 const colTitle = 'type-label mb-4 text-xs text-on-dark';
 const line = 'text-sm text-on-dark-muted';
@@ -23,17 +23,11 @@ const link = 'text-sm text-on-dark-muted hover:text-white';
     </nav>
 
     <div>
-      <h2 class={colTitle}>Correos</h2>
-      <ul class="grid gap-3">
-        {
-          EMAILS.map((email) => (
-            <li class="flex items-center gap-3">
-              <Icon name="email" size={16} class="text-white" />
-              <a href={`mailto:${email}`} class={link}>{email}</a>
-            </li>
-          ))
-        }
-      </ul>
+      <h2 class={colTitle}>Correo</h2>
+      <p class="flex items-center gap-3">
+        <Icon name="email" size={16} class="text-white" />
+        <a href={`mailto:${FOOTER_EMAIL}`} class={link}>{FOOTER_EMAIL}</a>
+      </p>
     </div>
 
     <div>

@@ -27,6 +27,7 @@
   --color-gray-200: #e1e5ea;
   --color-gray-300: #cbd2da;
   --color-gray-500: #7a8593;
+  --color-gray-600: #626d7a; /* between 500 and 700: card descriptions */
   --color-gray-700: #4a5560;
   --color-gray-900: #222c36;
 
@@ -70,6 +71,8 @@
   --text-lead--line-height: 1.6;
   --text-base: 15px;
   --text-base--line-height: 1.6;
+  --text-card: 14px; /* card descriptions */
+  --text-card--line-height: 1.5;
   --text-sm: 13px;
   --text-xs: 11px;
 

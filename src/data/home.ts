@@ -11,11 +11,6 @@ import img07 from '../assets/images/07-ayudante-de-silero.png';
 import img08 from '../assets/images/08-choferes-autoelevador.png';
 import img09 from '../assets/images/09-encargados-cuadrillas.png';
 import img10 from '../assets/images/10-grupos-de-trabajo.png';
-import img11 from '../assets/images/11-planta-industrial.png';
-import img12 from '../assets/images/12-almacen-logistica.png';
-import img13 from '../assets/images/13-seguridad-calidad.png';
-import img14 from '../assets/images/14-identidad-marca.png';
-import img15 from '../assets/images/15-cuidado-entorno.png';
 
 export interface Pillar {
   icon: IconName;
@@ -30,16 +25,11 @@ export interface Service {
   note: string;
 }
 
-export interface GalleryItem {
-  image: ImageMetadata;
-  caption: string;
-}
-
 export const PILLARS: Pillar[] = [
   { icon: 'seguridad', title: 'Seguridad', text: 'Priorizamos el bienestar de las personas y el entorno.' },
   { icon: 'calidad', title: 'Calidad', text: 'Procesos eficientes y mejora continua.' },
   { icon: 'compromiso', title: 'Compromiso', text: 'Nos involucramos como socios estratégicos.' },
-  { icon: 'confianza', title: 'Confianza', text: 'Relaciones a largo plazo basadas en resultados.' },
+  { icon: 'confianza', title: 'Confianza', text: 'Relaciones laborales a largo plazo basadas en resultados.' },
 ];
 
 export const SERVICES: Service[] = [
@@ -105,11 +95,18 @@ export const SERVICES: Service[] = [
   },
 ];
 
-export const GALLERY: GalleryItem[] = [
-  { image: img11, caption: 'Planta industrial' },
-  { image: img12, caption: 'Almacén y logística' },
-  { image: img13, caption: 'Seguridad y calidad' },
-  { image: img06, caption: 'Carga y descarga de vagones' },
-  { image: img14, caption: 'Personal propio' },
-  { image: img15, caption: 'Cuidado del entorno' },
+// Home shows 5 services: the first 2 as large cards, the other 3 below.
+// Order here is the display order; the full list stays for /servicios.
+const HOME_SERVICE_TITLES = [
+  'Limpieza en altura',
+  'Espacios confinados',
+  'Hidrolavado',
+  'Pulido de pisos',
+  'Descargas de camiones',
 ];
+
+export const HOME_SERVICES: Service[] = HOME_SERVICE_TITLES.map((title) => {
+  const service = SERVICES.find((s) => s.title === title);
+  if (!service) throw new Error(`Service "${title}" not found in SERVICES`);
+  return service;
+});

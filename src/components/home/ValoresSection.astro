@@ -1,0 +1,21 @@
+---
+import Reveal from 'astro-reveal/Reveal.astro';
+import Section from '../ui/Section.astro';
+import PillarItem from '../cards/PillarItem.astro';
+import { PILLARS } from '../../data/home';
+---
+
+<Section tone="dark" tight>
+  <h2 class="sr-only">Nuestros valores</h2>
+  <div class="grid gap-6 [--reveal-stagger:90ms] sm:grid-cols-2 sm:gap-8 lg:grid-cols-4 lg:gap-0">
+    {
+      PILLARS.map((pillar, i) => (
+        <Reveal index={i}>
+          <PillarItem icon={pillar.icon} title={pillar.title} divider={i > 0}>
+            {pillar.text}
+          </PillarItem>
+        </Reveal>
+      ))
+    }
+  </div>
+</Section>
