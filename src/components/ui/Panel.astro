@@ -1,0 +1,12 @@
+---
+/** White panel with hairline border for forms (no shadow, per the DS). */
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+---
+
+<div class:list={['rounded-md border border-line bg-surface p-6 sm:p-8', className]}>
+  <slot />
+</div>

@@ -1,0 +1,349 @@
+---
+import Field from '../ui/Field.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import IconHex from '../ui/IconHex.astro';
+import ChoiceChips from './ChoiceChips.astro';
+import { POSTULACION_STEPS, ACTIVIDADES, CV_ACCEPT, CV_MAX_MB } from '../../data/trabaja';
+
+const SI_NO = ['Sí', 'No'];
+const summaryRows = POSTULACION_STEPS.slice(0, -1);
+---
+
+{/* 4-step application form. All steps live in the markup; the script shows one at a time. */}
+<div data-postulacion data-max-mb={CV_MAX_MB} data-steps={JSON.stringify(POSTULACION_STEPS)}>
+  <form id="postulacion-form" novalidate>
+    <ol class="mb-8 grid grid-cols-4 gap-2 max-sm:grid-cols-[repeat(4,auto)] max-sm:justify-start max-sm:gap-4">
+      {
+        POSTULACION_STEPS.map((label, i) => (
+          <li
+            class="group grid content-start gap-2 border-t-3 border-line pt-3 text-muted data-[state=done]:border-accent data-[state=on]:border-accent"
+            data-state={i === 0 ? 'on' : 'todo'}
+            data-step-indicator
+          >
+            <span
+              class:list={[
+                'inline-flex size-5.5 items-center justify-center rounded-full border border-line-strong font-display text-xs font-bold',
+                'group-data-[state=on]:border-accent group-data-[state=on]:text-accent',
+                'group-data-[state=done]:border-accent group-data-[state=done]:bg-accent group-data-[state=done]:text-white',
+              ]}
+            >
+              <span class="group-data-[state=done]:hidden">{i + 1}</span>
+              <Icon name="check" size={13} class="hidden group-data-[state=done]:block" />
+            </span>
+            <span class="type-label text-xs leading-heading group-data-[state=on]:text-heading max-sm:hidden max-sm:group-data-[state=on]:block">
+              {label}
+            </span>
+          </li>
+        ))
+      }
+    </ol>
+
+    <div class="mb-6">
+      <span class="type-eyebrow" data-step-count>Paso 1 de {POSTULACION_STEPS.length}</span>
+      <h3 class="type-h3 mt-2 text-heading outline-none" tabindex="-1" data-step-title>{POSTULACION_STEPS[0]}</h3>
+    </div>
+
+    {/* 1. Datos personales */}
+    <fieldset class="grid grid-cols-1 gap-5 sm:grid-cols-2" data-step="0">
+      <legend class="sr-only">{POSTULACION_STEPS[0]}</legend>
+      <Field label="Nombre y apellido" name="nombre" required autocomplete="name" full />
+      <Field label="Edad" name="edad" inputmode="numeric" maxlength={2} data-digits />
+      <Field label="Localidad" name="localidad" autocomplete="address-level2" />
+      <Field label="Teléfono / WhatsApp" name="telefono" type="tel" required autocomplete="tel" />
+      <Field label="Correo electrónico" name="correo" type="email" required autocomplete="email" />
+    </fieldset>
+
+    {/* 2. Perfil laboral */}
+    <fieldset class="grid grid-cols-1 gap-6 sm:grid-cols-2" data-step="1" hidden>
+      <legend class="sr-only">{POSTULACION_STEPS[1]}</legend>
+      <ChoiceChips
+        label="¿En qué actividades tenés experiencia o te sentís más familiarizado/a?"
+        name="actividades"
+        options={ACTIVIDADES}
+        multi
+        required
+        full
+      >
+        <div hidden data-otras>
+          <Field label="Otras" name="otras" placeholder="Indicá cuáles" />
+        </div>
+      </ChoiceChips>
+      <ChoiceChips label="¿Tenés experiencia laboral previa?" name="experiencia" options={SI_NO} required />
+      <ChoiceChips
+        label="¿Contás con disponibilidad para trabajar en diferentes horarios?"
+        name="horarios"
+        options={SI_NO}
+        required
+      />
+      <Field label="¿Cuál fue tu último trabajo?" name="ultimo" full />
+      <Field label="¿Tenés carnet de conducir vigente? ¿Cuál?" name="carnet" placeholder="Ej: B1, D1, E1 o No tengo" full />
+    </fieldset>
+
+    {/* 3. Currículum */}
+    <fieldset data-step="2" hidden aria-describedby="f-cv-error">
+      <legend class="field-label mb-2">
+        Adjuntar CV<span class="text-accent" aria-hidden="true"> *</span>
+      </legend>
+      <label
+        class:list={[
+          'grid cursor-pointer justify-items-center gap-2 rounded-sm border border-dashed border-line-strong bg-surface-alt px-6 py-10 text-center transition',
+          'hover:border-accent hover:bg-blue-100 data-drag:border-accent data-drag:bg-blue-100',
+          'has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent',
+        ]}
+        data-dropzone
+      >
+        <input type="file" name="cv" accept={CV_ACCEPT} class="sr-only" />
+        <Icon name="postulacion" size={36} class="text-navy-800" />
+        <span class="type-label text-heading">Cargar archivo</span>
+        <span class="max-w-[34ch] text-sm text-muted">
+          Arrastralo acá o hacé clic para elegirlo. PDF, DOC o DOCX, hasta {CV_MAX_MB} MB.
+        </span>
+      </label>
+      <div class="flex items-center gap-3 rounded-sm border border-accent bg-surface p-4" hidden data-file>
+        <Icon name="postulacion" size={28} class="text-navy-800" />
+        <span class="grid min-w-0 flex-1 text-sm text-muted">
+          <strong class="truncate text-heading" data-file-name></strong>
+          <span data-file-size></span>
+        </span>
+        <button type="button" class="type-label cursor-pointer text-xs text-accent hover:text-navy-700" data-file-remove>
+          Quitar
+        </button>
+      </div>
+      <span id="f-cv-error" class="field-error" data-error-for="cv"></span>
+    </fieldset>
+
+    {/* 4. Finalizar postulación */}
+    <fieldset data-step="3" hidden>
+      <legend class="sr-only">{POSTULACION_STEPS[3]}</legend>
+      <dl class="mb-6 grid border-t border-line">
+        {
+          summaryRows.map((title, i) => (
+            <div class="border-b border-line py-4">
+              <dt class="type-label flex items-center justify-between text-xs text-heading">
+                {title}
+                <button type="button" class="cursor-pointer text-accent uppercase hover:text-navy-700" data-goto={i}>
+                  Editar<span class="sr-only"> {title.toLowerCase()}</span>
+                </button>
+              </dt>
+              <dd class="mt-2 text-sm" data-summary={i} />
+            </div>
+          ))
+        }
+      </dl>
+      <label class="group flex cursor-pointer items-center gap-3">
+        <input type="checkbox" name="declaro" class="sr-only" aria-describedby="f-declaro-error" />
+        <span
+          class:list={[
+            'inline-flex size-5 shrink-0 items-center justify-center rounded-xs border border-line-strong bg-surface text-white',
+            'group-has-checked:border-accent group-has-checked:bg-accent',
+            'group-has-focus-visible:outline-2 group-has-focus-visible:outline-offset-2 group-has-focus-visible:outline-accent',
+          ]}
+        >
+          <Icon name="check" size={14} class="opacity-0 group-has-checked:opacity-100" />
+        </span>
+        Declaro que la información proporcionada es correcta.
+      </label>
+      <span id="f-declaro-error" class="field-error" data-error-for="declaro"></span>
+    </fieldset>
+
+    <div class="mt-8 flex justify-between gap-4 border-t border-line pt-6 max-sm:*:flex-1">
+      <Button variant="outline" type="button" class="invisible" data-prev>Volver</Button>
+      <Button type="submit" data-next>Continuar</Button>
+    </div>
+  </form>
+
+  <div class="grid justify-items-start gap-4 py-4 outline-none" role="status" tabindex="-1" hidden data-done>
+    <IconHex name="check" size={52} tone="blue" />
+    <p class="type-h3 text-heading">Postulación enviada</p>
+    <p class="mb-2 max-w-[46ch] text-lead">
+      Gracias por dejarnos tus datos. Te contactaremos en caso de surgir una oportunidad laboral acorde a tu perfil.
+    </p>
+    <Button variant="navy" type="button" data-restart>Enviar otra postulación</Button>
+  </div>
+</div>
+
+<script>
+  import { submitForm, isEmail } from '../../lib/forms';
+
+  const formatSize = (bytes: number) =>
+    bytes > 1024 * 1024 ? `${(bytes / 1048576).toFixed(1)} MB` : `${Math.max(1, Math.round(bytes / 1024))} KB`;
+
+  document.querySelectorAll<HTMLElement>('[data-postulacion]').forEach((root) => {
+    const form = root.querySelector('form')!;
+    const steps = [...form.querySelectorAll<HTMLFieldSetElement>('[data-step]')];
+    const indicators = [...form.querySelectorAll<HTMLElement>('[data-step-indicator]')];
+    const titles: string[] = JSON.parse(root.dataset.steps!);
+    const maxBytes = Number(root.dataset.maxMb) * 1024 * 1024;
+    const last = steps.length - 1;
+
+    const $ = <T extends Element = HTMLElement>(sel: string) => root.querySelector<T>(sel)!;
+    const stepCount = $('[data-step-count]');
+    const stepTitle = $('[data-step-title]');
+    const prev = $<HTMLButtonElement>('[data-prev]');
+    const next = $<HTMLButtonElement>('[data-next]');
+    const done = $('[data-done]');
+    const otras = $('[data-otras]');
+    const dropzone = $('[data-dropzone]');
+    const fileInput = $<HTMLInputElement>('input[name="cv"]');
+    const fileBox = $('[data-file]');
+
+    let step = 0;
+    const reduceMotion = () => window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const value = (name: string) => String(new FormData(form).get(name) ?? '').trim();
+    const values = (name: string) => new FormData(form).getAll(name).map(String);
+
+    // Errors ----------------------------------------------------------------
+    const setError = (name: string, message = '') => {
+      root.querySelector(`[data-error-for="${name}"]`)!.textContent = message;
+      const control = form.elements.namedItem(name);
+      if (control instanceof HTMLElement) control.setAttribute('aria-invalid', String(Boolean(message)));
+    };
+    const clearErrors = () => root.querySelectorAll('[data-error-for]').forEach((el) => setError(el.getAttribute('data-error-for')!));
+
+    const rules: Record<number, () => Record<string, string>> = {
+      0: () => ({
+        nombre: value('nombre') ? '' : 'Ingresá tu nombre y apellido.',
+        telefono: value('telefono') ? '' : 'Ingresá un teléfono de contacto.',
+        correo: isEmail(value('correo')) ? '' : 'Ingresá un correo electrónico válido.',
+      }),
+      1: () => ({
+        actividades: values('actividades').length ? '' : 'Elegí al menos una actividad.',
+        otras: values('actividades').includes('Otras') && !value('otras') ? 'Contanos qué otras actividades.' : '',
+        experiencia: value('experiencia') ? '' : 'Elegí una opción.',
+        horarios: value('horarios') ? '' : 'Elegí una opción.',
+      }),
+      2: () => ({ cv: fileInput.files?.length ? '' : 'Adjuntá tu CV para continuar.' }),
+      3: () => ({ declaro: value('declaro') ? '' : 'Confirmá que la información es correcta.' }),
+    };
+
+    const validate = (s: number) => {
+      const errors = rules[s]!();
+      Object.entries(errors).forEach(([name, message]) => setError(name, message));
+      const first = Object.keys(errors).find((name) => errors[name]);
+      if (first) {
+        const control = form.elements.namedItem(first);
+        const target = control instanceof RadioNodeList ? (control[0] as HTMLElement) : (control as HTMLElement);
+        target?.focus();
+      }
+      return !first;
+    };
+
+    // Steps -----------------------------------------------------------------
+    const fillSummary = () => {
+      const actividades = values('actividades').map((a) => (a === 'Otras' && value('otras') ? `Otras: ${value('otras')}` : a));
+      const rows = [
+        [value('nombre'), value('edad') && `${value('edad')} años`, value('localidad'), value('telefono'), value('correo')],
+        [
+          actividades.join(', '),
+          `Experiencia previa: ${value('experiencia')}`,
+          value('ultimo') && `Último trabajo: ${value('ultimo')}`,
+          `Distintos horarios: ${value('horarios')}`,
+          value('carnet') && `Carnet: ${value('carnet')}`,
+        ],
+        [fileInput.files?.[0]?.name ?? ''],
+      ];
+      rows.forEach((parts, i) => {
+        root.querySelector(`[data-summary="${i}"]`)!.textContent = parts.filter(Boolean).join(' · ');
+      });
+    };
+
+    const go = (n: number, focus = true) => {
+      step = n;
+      clearErrors();
+      steps.forEach((el, i) => (el.hidden = i !== n));
+      indicators.forEach((el, i) => (el.dataset.state = i === n ? 'on' : i < n ? 'done' : 'todo'));
+      stepCount.textContent = `Paso ${n + 1} de ${steps.length}`;
+      stepTitle.textContent = titles[n]!;
+      prev.classList.toggle('invisible', n === 0);
+      next.textContent = n < last ? 'Continuar' : 'Enviar postulación';
+      if (n === last) fillSummary();
+      if (!focus) return;
+      if (form.getBoundingClientRect().top < 0) form.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' });
+      stepTitle.focus({ preventScroll: true });
+    };
+
+    prev.addEventListener('click', () => go(step - 1));
+    root.querySelectorAll<HTMLElement>('[data-goto]').forEach((btn) =>
+      btn.addEventListener('click', () => go(Number(btn.dataset.goto))),
+    );
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validate(step)) return;
+      if (step < last) return go(step + 1);
+
+      next.disabled = true;
+      await submitForm('postulacion', new FormData(form));
+      next.disabled = false;
+      form.hidden = true;
+      done.hidden = false;
+      if (done.getBoundingClientRect().top < 0) done.scrollIntoView({ behavior: reduceMotion() ? 'auto' : 'smooth' });
+      done.focus({ preventScroll: true });
+    });
+
+    $('[data-restart]').addEventListener('click', () => {
+      form.reset();
+      showFile(null);
+      otras.hidden = true;
+      done.hidden = true;
+      form.hidden = false;
+      go(0);
+    });
+
+    // Field behaviours ------------------------------------------------------
+    form.querySelector<HTMLInputElement>('[data-digits]')!.addEventListener('input', (e) => {
+      const input = e.currentTarget as HTMLInputElement;
+      input.value = input.value.replace(/\D/g, '').slice(0, 2);
+    });
+
+    form.querySelectorAll<HTMLInputElement>('input[name="actividades"]').forEach((input) =>
+      input.addEventListener('change', () => (otras.hidden = !values('actividades').includes('Otras'))),
+    );
+
+    // CV upload: native file input inside the dropzone label, plus drag & drop
+    const showFile = (file: File | null) => {
+      dropzone.hidden = Boolean(file);
+      fileBox.hidden = !file;
+      if (!file) return;
+      $('[data-file-name]').textContent = file.name;
+      $('[data-file-size]').textContent = formatSize(file.size);
+    };
+
+    const pickFile = (files: FileList | null) => {
+      const file = files?.[0];
+      if (!file) return;
+      const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
+      if (!['pdf', 'doc', 'docx'].includes(ext)) {
+        fileInput.value = '';
+        return setError('cv', 'El archivo tiene que ser PDF, DOC o DOCX.');
+      }
+      if (file.size > maxBytes) {
+        fileInput.value = '';
+        return setError('cv', `El archivo supera los ${root.dataset.maxMb} MB.`);
+      }
+      if (fileInput.files !== files) fileInput.files = files;
+      setError('cv');
+      showFile(file);
+    };
+
+    fileInput.addEventListener('change', () => pickFile(fileInput.files));
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.toggleAttribute('data-drag', true);
+    });
+    dropzone.addEventListener('dragleave', () => dropzone.removeAttribute('data-drag'));
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.removeAttribute('data-drag');
+      pickFile(e.dataTransfer?.files ?? null);
+    });
+    $('[data-file-remove]').addEventListener('click', () => {
+      fileInput.value = '';
+      showFile(null);
+      fileInput.focus();
+    });
+
+    go(0, false);
+  });
+</script>

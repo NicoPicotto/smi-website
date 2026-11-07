@@ -16,6 +16,18 @@ export const EMAILS = [
   'gerencia@smi.com.ar',
 ];
 
+export interface Channel {
+  title: string;
+  email: string;
+}
+
+// Contact channels by area (/contacto)
+export const CHANNELS: Channel[] = [
+  { title: 'Gerencia', email: 'gerencia@smi.com.ar' },
+  { title: 'Administración', email: 'administracion@smi.com.ar' },
+  { title: 'Recursos humanos', email: 'recursoshumanos@smi.com.ar' },
+];
+
 // Public contact address shown in the footer
 export const FOOTER_EMAIL = 'recepcion@smi.com.ar';
 

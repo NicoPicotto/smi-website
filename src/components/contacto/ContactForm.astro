@@ -1,0 +1,70 @@
+---
+import Field from '../ui/Field.astro';
+import Button from '../ui/Button.astro';
+import Icon from '../ui/Icon.astro';
+import { MOTIVOS } from '../../data/contacto';
+---
+
+<div data-contact-form>
+  <form novalidate>
+    <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+      <Field label="Nombre y apellido" name="nombre" required autocomplete="name" />
+      <Field label="Empresa" name="empresa" autocomplete="organization" />
+      <Field label="Correo electrónico" name="correo" type="email" required autocomplete="email" />
+      <Field label="Teléfono" name="telefono" type="tel" autocomplete="tel" />
+      <Field label="Motivo de contacto" name="motivo" as="select" options={MOTIVOS} full />
+      <Field label="Ubicación" name="ubicacion" placeholder="Localidad, provincia" />
+      <Field label="Mensaje" name="mensaje" as="textarea" full placeholder="Contanos sobre tu proyecto o consulta." />
+    </div>
+    <div class="mt-8 flex flex-wrap items-center gap-4">
+      <Button type="submit">Enviar consulta</Button>
+      <span class="text-sm text-muted">Respondemos en el día hábil siguiente.</span>
+    </div>
+  </form>
+
+  <div class="flex items-start gap-4 py-4" role="status" tabindex="-1" hidden data-done>
+    <Icon name="calidad" size={28} class="text-accent" />
+    <div>
+      <p class="type-h3 text-heading">Recibimos tus datos.</p>
+      <p class="mt-2">Nuestro equipo se pondrá en contacto a la brevedad.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { submitForm, isEmail } from '../../lib/forms';
+
+  document.querySelectorAll<HTMLElement>('[data-contact-form]').forEach((root) => {
+    const form = root.querySelector('form')!;
+    const done = root.querySelector<HTMLElement>('[data-done]')!;
+    const submit = form.querySelector<HTMLButtonElement>('[type="submit"]')!;
+
+    const setError = (name: string, message = '') => {
+      const control = form.elements.namedItem(name) as HTMLInputElement;
+      control.setAttribute('aria-invalid', String(Boolean(message)));
+      root.querySelector(`[data-error-for="${name}"]`)!.textContent = message;
+    };
+
+    const validate = () => {
+      const data = new FormData(form);
+      const errors: Record<string, string> = {
+        nombre: String(data.get('nombre')).trim() ? '' : 'Ingresá tu nombre y apellido.',
+        correo: isEmail(String(data.get('correo'))) ? '' : 'Ingresá un correo electrónico válido.',
+      };
+      Object.entries(errors).forEach(([name, message]) => setError(name, message));
+      const first = Object.keys(errors).find((name) => errors[name]);
+      if (first) (form.elements.namedItem(first) as HTMLElement).focus();
+      return !first;
+    };
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!validate()) return;
+      submit.disabled = true;
+      await submitForm('contacto', new FormData(form));
+      form.hidden = true;
+      done.hidden = false;
+      done.focus();
+    });
+  });
+</script>

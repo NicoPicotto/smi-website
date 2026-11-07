@@ -1,0 +1,41 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+/**
+ * Labelled form control (input, textarea or select) with an error slot that the
+ * form script fills: `[data-error-for="<name>"]`.
+ */
+type Props = {
+  label: string;
+  name: string;
+  as?: 'input' | 'textarea' | 'select';
+  options?: string[];
+  required?: boolean;
+  /** Spans both columns of a 2-column form grid. */
+  full?: boolean;
+  class?: string;
+} & Omit<HTMLAttributes<'input'>, 'class' | 'name' | 'required'>;
+
+const { label, name, as = 'input', options = [], required = false, full = false, class: className, id, ...rest } =
+  Astro.props;
+
+const fieldId = id ?? `f-${name}`;
+const errorId = `${fieldId}-error`;
+const control = { id: fieldId, name, required, 'aria-describedby': errorId, class: 'field-control mt-2' };
+---
+
+<div class:list={[full && 'sm:col-span-2', className]}>
+  <label for={fieldId} class="field-label">
+    {label}{required && <span class="text-accent" aria-hidden="true"> *</span>}
+  </label>
+  {as === 'textarea' && <textarea rows={4} {...control} class="field-control mt-2 resize-y" {...(rest as object)} />}
+  {
+    as === 'select' && (
+      <select {...control} {...(rest as object)}>
+        {options.map((option) => <option>{option}</option>)}
+      </select>
+    )
+  }
+  {as === 'input' && <input {...control} {...rest} />}
+  <span id={errorId} class="field-error" data-error-for={name}></span>
+</div>

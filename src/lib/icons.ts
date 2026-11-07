@@ -26,6 +26,7 @@ export const ICON_NAMES = [
   'contacto',
   'email',
   'ubicacion',
+  'check',
 ] as const;
 
 export type IconName = (typeof ICON_NAMES)[number];

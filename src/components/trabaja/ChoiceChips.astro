@@ -1,0 +1,49 @@
+---
+import Icon from '../ui/Icon.astro';
+
+/**
+ * Question with chip-styled options. Real checkbox/radio inputs (visually hidden)
+ * so keyboard, screen readers and FormData work natively.
+ */
+interface Props {
+  label: string;
+  name: string;
+  options: string[];
+  multi?: boolean;
+  required?: boolean;
+  /** Spans both columns of the form grid. */
+  full?: boolean;
+}
+
+const { label, name, options, multi = false, required = false, full = false } = Astro.props;
+const errorId = `f-${name}-error`;
+---
+
+<fieldset class:list={['grid content-start gap-3', full && 'sm:col-span-2']} aria-describedby={errorId}>
+  <legend class="field-label mb-3">
+    {label}{required && <span class="text-accent" aria-hidden="true"> *</span>}
+  </legend>
+  <div class="flex flex-wrap gap-2">
+    {
+      options.map((option) => (
+        <label
+          class:list={[
+            'group inline-flex min-h-10 cursor-pointer items-center gap-2 rounded-sm border border-line-strong bg-surface px-4 text-sm text-body transition',
+            'hover:border-accent has-checked:border-accent has-checked:bg-blue-100 has-checked:text-heading',
+            'has-focus-visible:outline-2 has-focus-visible:outline-offset-2 has-focus-visible:outline-accent',
+          ]}
+        >
+          <input type={multi ? 'checkbox' : 'radio'} name={name} value={option} class="sr-only" />
+          {multi && (
+            <span class="inline-flex size-4 items-center justify-center rounded-xs border border-line-strong bg-surface text-accent group-has-checked:border-accent">
+              <Icon name="check" size={12} class="opacity-0 group-has-checked:opacity-100" />
+            </span>
+          )}
+          {option}
+        </label>
+      ))
+    }
+  </div>
+  <slot />
+  <span id={errorId} class="field-error -mt-1" data-error-for={name}></span>
+</fieldset>

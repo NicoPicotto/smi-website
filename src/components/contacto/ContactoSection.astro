@@ -1,0 +1,35 @@
+---
+import Reveal from 'astro-reveal/Reveal.astro';
+import Section from '../ui/Section.astro';
+import SectionHeading from '../ui/SectionHeading.astro';
+import Panel from '../ui/Panel.astro';
+import ChannelLink from '../cards/ChannelLink.astro';
+import ContactForm from './ContactForm.astro';
+import { CHANNELS } from '../../data/site';
+---
+
+<Section id="contacto" tone="alt">
+  <div class="grid grid-cols-1 items-start gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:gap-16">
+    <div>
+      <Reveal>
+        <SectionHeading as="h1" title="Hablemos de tu próximo proyecto" />
+      </Reveal>
+      <Reveal as="p" index={1} class="mt-6">
+        Estamos disponibles para conocer tus necesidades y desarrollar una propuesta de servicios adecuada para tu
+        empresa.
+      </Reveal>
+      <Reveal index={2} class="mt-8 grid gap-3">
+        {CHANNELS.map((channel) => <ChannelLink {...channel} />)}
+      </Reveal>
+      <Reveal as="p" index={3} class="mt-6 text-sm text-muted">
+        ¿Buscás trabajo con nosotros? <a href="/trabaja#postulacion">Enviá tu CV</a>.
+      </Reveal>
+    </div>
+
+    <Reveal index={1.5}>
+      <Panel>
+        <ContactForm />
+      </Panel>
+    </Reveal>
+  </div>
+</Section>
