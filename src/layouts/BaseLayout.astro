@@ -2,6 +2,7 @@
 import { Font } from 'astro:assets';
 import SiteHeader from '../components/layout/SiteHeader.astro';
 import SiteFooter from '../components/layout/SiteFooter.astro';
+import WhatsAppButton from '../components/ui/WhatsAppButton.astro';
 import '../styles/global.css';
 
 interface Props {
@@ -34,5 +35,6 @@ const {
       <slot />
     </main>
     <SiteFooter />
+    <WhatsAppButton />
   </body>
 </html>

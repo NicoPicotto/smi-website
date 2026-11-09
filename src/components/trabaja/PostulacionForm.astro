@@ -83,7 +83,7 @@ const summaryRows = POSTULACION_STEPS.slice(0, -1);
     {/* 3. Currículum */}
     <fieldset data-step="2" hidden aria-describedby="f-cv-error">
       <legend class="field-label mb-2">
-        Adjuntar CV<span class="text-accent" aria-hidden="true"> *</span>
+        Adjuntar CV <span class="font-normal text-muted">(opcional)</span>
       </legend>
       <label
         class:list={[
@@ -213,7 +213,8 @@ const summaryRows = POSTULACION_STEPS.slice(0, -1);
         experiencia: value('experiencia') ? '' : 'Elegí una opción.',
         horarios: value('horarios') ? '' : 'Elegí una opción.',
       }),
-      2: () => ({ cv: fileInput.files?.length ? '' : 'Adjuntá tu CV para continuar.' }),
+      // CV is optional: type/size are checked when the file is picked
+      2: () => ({ cv: '' }),
       3: () => ({ declaro: value('declaro') ? '' : 'Confirmá que la información es correcta.' }),
     };
 
@@ -241,7 +242,7 @@ const summaryRows = POSTULACION_STEPS.slice(0, -1);
           `Distintos horarios: ${value('horarios')}`,
           value('carnet') && `Carnet: ${value('carnet')}`,
         ],
-        [fileInput.files?.[0]?.name ?? ''],
+        [fileInput.files?.[0]?.name ?? 'Sin CV adjunto'],
       ];
       rows.forEach((parts, i) => {
         root.querySelector(`[data-summary="${i}"]`)!.textContent = parts.filter(Boolean).join(' · ');

@@ -2,7 +2,6 @@
 import Field from '../ui/Field.astro';
 import Button from '../ui/Button.astro';
 import Icon from '../ui/Icon.astro';
-import { MOTIVOS } from '../../data/contacto';
 ---
 
 <div data-contact-form>
@@ -12,13 +11,12 @@ import { MOTIVOS } from '../../data/contacto';
       <Field label="Empresa" name="empresa" autocomplete="organization" />
       <Field label="Correo electrónico" name="correo" type="email" required autocomplete="email" />
       <Field label="Teléfono" name="telefono" type="tel" autocomplete="tel" />
-      <Field label="Motivo de contacto" name="motivo" as="select" options={MOTIVOS} full />
-      <Field label="Ubicación" name="ubicacion" placeholder="Localidad, provincia" />
+      <Field label="Ubicación" name="ubicacion" placeholder="Localidad, provincia" full />
       <Field label="Mensaje" name="mensaje" as="textarea" full placeholder="Contanos sobre tu proyecto o consulta." />
     </div>
     <div class="mt-8 flex flex-wrap items-center gap-4">
       <Button type="submit">Enviar consulta</Button>
-      <span class="text-sm text-muted">Respondemos en el día hábil siguiente.</span>
+      <span class="text-sm text-muted">Respondemos dentro de las 24hs hábiles.</span>
     </div>
   </form>
 

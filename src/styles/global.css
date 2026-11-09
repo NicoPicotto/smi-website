@@ -36,6 +36,10 @@
   --color-warning: #c98a16;
   --color-danger: #b3382f;
 
+  /* Third-party brand: WhatsApp floating button only (the one palette exception) */
+  --color-whatsapp: #25d366;
+  --color-whatsapp-dark: #1ebe5b;
+
   /* Semantic aliases: prefer these in components */
   --color-brand: var(--color-navy-800);
   --color-accent: var(--color-blue-500);

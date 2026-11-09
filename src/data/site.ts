@@ -23,9 +23,9 @@ export interface Channel {
 
 // Contact channels by area (/contacto)
 export const CHANNELS: Channel[] = [
-  { title: 'Gerencia', email: 'gerencia@smi.com.ar' },
-  { title: 'Administración', email: 'administracion@smi.com.ar' },
-  { title: 'Recursos humanos', email: 'recursoshumanos@smi.com.ar' },
+  { title: 'Recepción', email: 'recepcion@smi.com.ar' },
+  // { title: 'Administración', email: 'administracion@smi.com.ar' },
+  // { title: 'Recursos humanos', email: 'recursoshumanos@smi.com.ar' },
 ];
 
 // Public contact address shown in the footer
@@ -36,5 +36,13 @@ export const CONTACT = {
   phone: 'Completar teléfono',
   address: ['Completar dirección', 'Localidad, provincia'],
 };
+
+// Floating WhatsApp button (all pages). wa.me format: no +, spaces or dashes.
+export const WHATSAPP = {
+  number: '5493584398794',
+  message: 'Hola, quiero hacer una consulta.',
+};
+
+export const WHATSAPP_HREF = `https://wa.me/${WHATSAPP.number}?text=${encodeURIComponent(WHATSAPP.message)}`;
 
 export const TAGLINE = 'Soluciones integrales de limpieza y mantenimiento industrial.';

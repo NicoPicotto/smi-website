@@ -11,7 +11,7 @@ import benefitsImage from '../../assets/images/trabaja-beneficios.png';
 
 const paragraphs = [
   'Buscamos personas comprometidas, responsables y con ganas de crecer.',
-  'Ofrecemos oportunidades de trabajo en blanco, capacitación continua y la posibilidad de formar parte de grandes proyectos industriales.',
+  'Ofrecemos oportunidades, capacitación continua y la posibilidad de formar parte de grandes proyectos industriales.',
 ];
 ---
 
@@ -25,9 +25,7 @@ const paragraphs = [
       <div class="mt-6 grid gap-4">
         {paragraphs.map((text, i) => <Reveal as="p" index={i + 1}>{text}</Reveal>)}
       </div>
-      <Reveal index={3} class="mt-8">
-        <Button href="#postulacion">Enviá tu CV</Button>
-      </Reveal>
+     
     </div>
 
     <Reveal index={1.5}>
